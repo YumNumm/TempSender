@@ -16,6 +16,10 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 import requests
 
+for i in range(len(sys.argv)):
+ print(sys.argv[i])
+
+
 
 def check():
    #ユーザ名とパスワードの確認
@@ -23,21 +27,21 @@ def check():
       user_name = str(sys.argv[1])
       user_password = str(sts.argv[2])
    except:
-      print("[ Error ] IDとパスワードが確認できませんでした。もう一度入力してください"
+      print("[ Error ] IDとパスワードが確認できませんでした。もう一度入力してください")
       print("IDを入力してください")
       user_name = input()
       print("パスワードを入力してください")
       user_password = str(input())
 
-   print("ID:"+user_name+"\nパスワード:"+user_password+"\nを利用します"
+   print("ID:"+user_name+"\nパスワード:"+user_password+"\nを利用します")
    photo_name = user_name+".png"
    #体温設定
    try:
-      temp = str(sys.argv[3]
-      print("[ Info ] 体温は"+temp+"を使用します(引数より)"
+      temp = str(sys.argv[3])
+      print("[ Info ] 体温は"+temp+"を使用します(引数より)")
    except:
       temp = str(random.uniform(36.0,36.7))
-      print("[ Info ] 体温は"+temp+"を使用します(乱数生成)"
+      print("[ Info ] 体温は"+temp+"を使用します(乱数生成)")
    return 0
 
 def twisend():
@@ -92,6 +96,32 @@ def chromesend():
         print(traceback.format_exc())
         driver.quit()
 
+
+def fin():
+ t2=time.time()
+ elst=t2-t1
+ print("経過時間は",elst)
+
+
+ text = "体温送信が完了しました\n実行時間は:" + elst + "秒"
+
+ api.update_with_media(filename='./screenshot.png',status=text)
+
+
+
+ token = "XXX"
+ url = "https://notify-api.line.me/api/notify"
+ headers = {"Authorization": "Bearer " + token}
+ payload = {"message": text}
+ files = {"imageFile":open('./screenshot.png', "rb")}
+ line_notify = requests.post(url, data=payload, headers=headers, files=files)
+
+
+ print("終了")
+
+
+
+
 def main():
    check()
    twisend()
@@ -99,24 +129,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-t2=time.time()
-elst=t2-t1
-print("経過時間は",elst)
-
-
-text = "体温送信が完了しました\n実行時間は:" + elst + "秒"
-
-api.update_with_media(filename='./screenshot.png',status=text)
-
-
-
-token = "XXX"
-url = "https://notify-api.line.me/api/notify"
-headers = {"Authorization": "Bearer " + token}
-payload = {"message": text}
-files = {"imageFile":open('./screenshot.png', "rb")}
-line_notify = requests.post(url, data=payload, headers=headers, files=files)
-
-
-print("終了")
