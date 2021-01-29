@@ -1,20 +1,21 @@
-import sys
-import tweepy
-import time
-from selenium import webdriver
-from webdriver_manager.chrome import ChromeDriverManager
-import traceback
 import json
 import os
 import random
+import sys
+import time
+import traceback
 from decimal import Decimal
-from selenium.webdriver.common.by import By
+
+import requests
+import tweepy
+from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-import requests
+from webdriver_manager.chrome import ChromeDriverManager
 
 for i in range(len(sys.argv)):
     print(sys.argv[i])
