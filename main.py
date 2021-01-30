@@ -8,10 +8,10 @@ UserPW = []
 
 
 # Twitter API Keys
-CK = ""
-CS = ""
-AT = ""
-AS = ""
+CK=""
+CS=""
+AT=""
+AS=""
 
 # LINE Notify API Token
 LT = ""
@@ -125,12 +125,31 @@ def chromesend(ID, PW, TEMP):
         driver.save_screenshot(PhotoName)
         driver.find_element(By.LINK_TEXT, "終了").click()
 
-       
         driver.quit()
         print("Posting finished.")
     except:
         print(traceback.format_exc())
         driver.quit()
+
+
+def TwiSend(PhotoName,CK,CS,AT,AS,elst):
+    if isTwiSend == 1:
+        # Twitterオブジェクトの生成
+        auth = tweepy.OAuthHandler(CK, CS) 
+        auth.set_access_token(AT, AS) 
+        api = tweepy.API(auth)
+        # 好きな言葉をツイート
+        api.update_with_media(filename="./"+PhotoName,status=TEXT) 
+
+
+def LineSend(PhotoName,LT,TEXT):
+    if isLineSend == 1:
+        line_notify_api = 'https://notify-api.line.me/api/notify'
+        message = TEXT
+        payload = {'message': message}
+        headers = {'Authorization': 'Bearer ' + LT}
+        files = {'imageFile': open("./"+PhotoName, "rb")} 
+        line_notify = requests.post(line_notify_api, data=payload, headers=headers, files=files)
 
 
 try:
@@ -181,15 +200,15 @@ if SetUser == 1:
 
 # Twitter API KEYが定義されているかを確認
 if CK == CS == AT == AS:
-    TwiSend = 0
+    isTwiSend = 0
 else:
-    TwiSend = 1
+    isTwiSend = 1
 
 # LINE API Keyが定義されているかを確認
 if LT == "":
-    LineSend = 0
+    isLineSend = 0
 else:
-    LineSend = 1
+    isLineSend = 1
 
 if len(UserID) == len(UserPW):
     print()
@@ -197,9 +216,9 @@ else:
     print("事前設定したIDとパスワードの個数が正しくありません。\n再確認してください。")
     sys.exit(1)
 
-
-UserID = UserID.split(",")
-UserPW = UserPW.split(",")
+if type(UserID) == str:
+    UserID = UserID.split(",")
+    UserPW = UserPW.split(",")
 
 
 # 繰り返し回数判定
@@ -209,3 +228,10 @@ for i in range(len(UserID)):
     PhotoName = str(UserID[i]) + ".png"
     t1 = time.time()
     chromesend(ID, PW, TempNow)
+    t2=time.time()
+    elst=t2-t1
+    TEXT  = "体温送信が完了しました\n実行時間は:" + str(Decimal(str(elst)).quantize(Decimal("0.1"))) + "秒"
+
+    TwiSend(PhotoName,CK,CS,AT,AS,elst)
+    LineSend(PhotoName,LT,TEXT)
+    print(TEXT)
