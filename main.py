@@ -122,10 +122,10 @@ def chromesend(ID, PW, TEMP):
         driver.find_element(By.NAME, "next_").click()
         driver.find_element(By.NAME, "confirm_registration").click()
         print("Saving Screenshot...")
-        driver.save_screenshot("screenshot.png")
+        driver.save_screenshot(PhotoName)
         driver.find_element(By.LINK_TEXT, "終了").click()
 
-        driver.save_screenshot(PhotoName)
+       
         driver.quit()
         print("Posting finished.")
     except:
