@@ -8,10 +8,10 @@ UserPW = []
 
 
 # Twitter API Keys
-CK=""
-CS=""
-AT=""
-AS=""
+CK = ""
+CS = ""
+AT = ""
+AS = ""
 
 # LINE Notify API Token
 LT = ""
@@ -140,14 +140,10 @@ else:
     print("事前設定したIDとパスワードの個数が正しくありません。\n再確認してください。")
     sys.exit(1)
 
-#UserIDがstr型ならば ,で区切ってlist型にする
+# UserIDがstr型ならば ,で区切ってlist型にする
 if type(UserID) == str:
     UserID = UserID.split(",")
     UserPW = UserPW.split(",")
-
-
-
-
 
 
 def chromesend(ID, PW, TEMP):
@@ -207,25 +203,26 @@ def chromesend(ID, PW, TEMP):
         driver.quit()
 
 
-def TwiSend(PhotoName,CK,CS,AT,AS,elst):
+def TwiSend(PhotoName, CK, CS, AT, AS, elst):
     if isTwiSend == 1:
         # Twitterオブジェクトの生成
         auth = tweepy.OAuthHandler(CK, CS)
         auth.set_access_token(AT, AS)
         api = tweepy.API(auth)
         # 好きな言葉をツイート
-        api.update_with_media(filename="./"+PhotoName,status=TEXT)
+        api.update_with_media(filename="./" + PhotoName, status=TEXT)
 
 
-def LineSend(PhotoName,LT,TEXT):
+def LineSend(PhotoName, LT, TEXT):
     if isLineSend == 1:
-        line_notify_api = 'https://notify-api.line.me/api/notify'
+        line_notify_api = "https://notify-api.line.me/api/notify"
         message = TEXT
-        payload = {'message': message}
-        headers = {'Authorization': 'Bearer ' + LT}
-        files = {'imageFile': open("./"+PhotoName, "rb")}
-        line_notify = requests.post(line_notify_api, data=payload, headers=headers, files=files)
-
+        payload = {"message": message}
+        headers = {"Authorization": "Bearer " + LT}
+        files = {"imageFile": open("./" + PhotoName, "rb")}
+        line_notify = requests.post(
+            line_notify_api, data=payload, headers=headers, files=files
+        )
 
 
 # 繰り返し回数判定
@@ -235,10 +232,12 @@ for i in range(len(UserID)):
     PhotoName = str(UserID[i]) + ".png"
     t1 = time.time()
     chromesend(ID, PW, TempNow)
-    t2=time.time()
-    elst=t2-t1
-    TEXT  = "体温送信が完了しました\n実行時間は:" + str(Decimal(str(elst)).quantize(Decimal("0.1"))) + "秒"
+    t2 = time.time()
+    elst = t2 - t1
+    TEXT = (
+        "体温送信が完了しました\n実行時間は:" + str(Decimal(str(elst)).quantize(Decimal("0.1"))) + "秒"
+    )
 
-    TwiSend(PhotoName,CK,CS,AT,AS,elst)
-    LineSend(PhotoName,LT,TEXT)
+    TwiSend(PhotoName, CK, CS, AT, AS, elst)
+    LineSend(PhotoName, LT, TEXT)
     print(TEXT)
