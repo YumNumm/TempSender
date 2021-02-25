@@ -25,54 +25,22 @@ TempNow = 0.0
 import subprocess
 import sys
 
-try:
-
-    import json
-    import os
-    import random
-    import time
-    import traceback
-    from decimal import Decimal
-
-    import requests
-    import tweepy
-    from selenium import webdriver
-    from selenium.webdriver.common.action_chains import ActionChains
-    from selenium.webdriver.common.by import By
-    from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-    from selenium.webdriver.common.keys import Keys
-    from selenium.webdriver.support import expected_conditions
-    from selenium.webdriver.support.wait import WebDriverWait
-    from webdriver_manager.chrome import ChromeDriverManager
-
-except:
-    print("importに失敗 インストールします")
-    subprocess.check_call(
-        [sys.executable, "-m", "pip", "install", "-r", "requirements.txt"]
-    )
-    try:
-        import json
-        import os
-        import random
-        import time
-        import traceback
-        from decimal import Decimal
-
-        import requests
-        import tweepy
-        from selenium import webdriver
-        from selenium.webdriver.common.action_chains import ActionChains
-        from selenium.webdriver.common.by import By
-        from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-        from selenium.webdriver.common.keys import Keys
-        from selenium.webdriver.support import expected_conditions
-        from selenium.webdriver.support.wait import WebDriverWait
-        from webdriver_manager.chrome import ChromeDriverManager
-
-    except:
-        print("\n\nインストール失敗。pipから自分でインストールしてください。")
-        exit(0)
-    print("\n\nインストール完了\n\n")
+import json
+import os
+import random
+import time
+import traceback
+from decimal import Decimal
+import requests
+import tweepy
+from selenium import webdriver
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support.wait import WebDriverWait
+from webdriver_manager.chrome import ChromeDriverManager
 
 
 # sys.argvの個数を確認
