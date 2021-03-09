@@ -1,5 +1,6 @@
-# TempSender
-## [YSFH-SINE](https://www.ysfh.ed.jp/)の体温送信を簡略化しました。  
+# YSFHTempSender
+## [YSFH-SINE](https://www.ysfh.ed.jp/)の体温送信を簡略化しました。   
+YSFHについては[こちら](https://www.edu.city.yokohama.lg.jp/school/hs/sfh/)をご覧ください。  
 
 ---  
 
